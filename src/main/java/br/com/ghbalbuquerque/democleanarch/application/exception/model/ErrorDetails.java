@@ -11,6 +11,7 @@ public class ErrorDetails {
 
     private String type;
     private String title;
+    private String code;
     private String detail;
     private Integer status;
     private Date date;
