@@ -22,7 +22,7 @@ public class NotificationInterceptor implements HandlerInterceptor {
                            Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
 
-        if(notificationContext.hasNotifications()) {
+        if (notificationContext.hasNotifications()) {
             response.setStatus(400);
             var notificationJson = new Gson().toJson(notificationContext.getNotifications());
             response.getWriter().write(notificationJson);

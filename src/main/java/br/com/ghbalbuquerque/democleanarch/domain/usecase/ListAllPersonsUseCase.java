@@ -1,10 +1,10 @@
 package br.com.ghbalbuquerque.democleanarch.domain.usecase;
 
 import br.com.ghbalbuquerque.democleanarch.domain.entity.Person;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ListAllPersonsUseCase {
 
-    List<Person> execute();
+    Page<Person> execute(Pageable pageable);
 }

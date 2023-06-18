@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreatePersonUseCaseImpl implements CreatePersonUseCase {
 
+    //TODO: impl
+
     @Autowired
-    private PersonRepository pessoaRepository;
+    private PersonRepository personRepository;
 
     @Override
     public Person execute() {
