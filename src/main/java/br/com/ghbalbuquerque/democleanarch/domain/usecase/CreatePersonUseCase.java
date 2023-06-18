@@ -1,8 +1,9 @@
 package br.com.ghbalbuquerque.democleanarch.domain.usecase;
 
+import br.com.ghbalbuquerque.democleanarch.application.command.CreatePersonCommand;
 import br.com.ghbalbuquerque.democleanarch.domain.entity.Person;
 
 public interface CreatePersonUseCase {
 
-    Person execute();
+    Person execute(CreatePersonCommand command);
 }

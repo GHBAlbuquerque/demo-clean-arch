@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class ErrorDetails {
+public class ExceptionDetails {
 
     private String type;
     private String title;

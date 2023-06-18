@@ -1,6 +1,8 @@
 package br.com.ghbalbuquerque.democleanarch.api.controller;
 
+import br.com.ghbalbuquerque.democleanarch.api.request.PersonCreationDTO;
 import br.com.ghbalbuquerque.democleanarch.api.response.PersonResponseDTO;
+import br.com.ghbalbuquerque.democleanarch.application.command.CreatePersonCommand;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.CreatePersonUseCase;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.GetPersonByIdUseCase;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.ListAllPersonsUseCase;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,8 +61,9 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<PersonResponseDTO> createPerson() {
-        final var result = createPersonUseCase.execute();
+    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonCreationDTO personCreationDTO) {
+        final var command = modelMapper.map(personCreationDTO, CreatePersonCommand.class);
+        final var result = createPersonUseCase.execute(command);
         var response = modelMapper.map(result, PersonResponseDTO.class);
 
         return ResponseEntity.ok(response);

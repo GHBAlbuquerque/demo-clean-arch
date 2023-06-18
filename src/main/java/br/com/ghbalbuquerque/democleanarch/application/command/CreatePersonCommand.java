@@ -1,11 +1,11 @@
-package br.com.ghbalbuquerque.democleanarch.api.request;
+package br.com.ghbalbuquerque.democleanarch.application.command;
 
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class PersonUpdateDTO {
+public class CreatePersonCommand {
 
     String name;
 

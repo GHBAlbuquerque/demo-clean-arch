@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ListAllPersonsUseCaseImpl implements ListAllPersonsUseCase {
 
-    //TODO: impl
-
     @Autowired
     private PersonRepository personRepository;
 

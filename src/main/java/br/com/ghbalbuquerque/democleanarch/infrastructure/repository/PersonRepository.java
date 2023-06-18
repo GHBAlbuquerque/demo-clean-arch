@@ -2,6 +2,7 @@ package br.com.ghbalbuquerque.democleanarch.infrastructure.repository;
 
 import br.com.ghbalbuquerque.democleanarch.infrastructure.entity.PersonEntity;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface PersonRepository extends PagingAndSortingRepository<PersonEntity, UUID> {
+public interface PersonRepository extends PagingAndSortingRepository<PersonEntity, UUID>, JpaRepository<PersonEntity, UUID> {
 
     Optional<PersonEntity> findByName(String nome);
 

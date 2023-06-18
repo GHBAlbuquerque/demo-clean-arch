@@ -1,7 +1,7 @@
 package br.com.ghbalbuquerque.democleanarch.application.exception;
 
 import br.com.ghbalbuquerque.democleanarch.application.exception.model.AlreadyRegisteredException;
-import br.com.ghbalbuquerque.democleanarch.application.exception.model.ErrorDetails;
+import br.com.ghbalbuquerque.democleanarch.application.exception.model.ExceptionDetails;
 import br.com.ghbalbuquerque.democleanarch.application.exception.model.NotFoundException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
@@ -18,9 +18,9 @@ import java.util.Date;
 public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {AlreadyRegisteredException.class})
-    public ResponseEntity<ErrorDetails> resourceException(AlreadyRegisteredException ex, WebRequest request) {
+    public ResponseEntity<ExceptionDetails> resourceException(AlreadyRegisteredException ex, WebRequest request) {
 
-        final var message = new ErrorDetails(
+        final var message = new ExceptionDetails(
                 "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400",
                 "The request could not be completed due to a conflict.",
                 ex.getCode(),
@@ -32,9 +32,9 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {NotFoundException.class})
-    public ResponseEntity<ErrorDetails> resourceException(NotFoundException ex, WebRequest request) {
+    public ResponseEntity<ExceptionDetails> resourceException(NotFoundException ex, WebRequest request) {
 
-        final var message = new ErrorDetails(
+        final var message = new ExceptionDetails(
                 "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
                 "The requested resource was not found.",
                 ex.getCode(),
@@ -50,9 +50,9 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
         var status = HttpStatus.BAD_REQUEST;
         var root = ExceptionUtils.getRootCause(ex);
 
-        final var message = new ErrorDetails(
-                "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",
-                "The requested resource was not found.",
+        final var message = new ExceptionDetails(
+                "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400",
+                "Bad Request.",
                 ex.getClass().toString(),
                 root.getCause().toString(),
                 status.value(),
@@ -65,9 +65,9 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
         var status = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        final var message = new ErrorDetails(
+        final var message = new ExceptionDetails(
                 "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",
-                "The requested resource was not found.",
+                "Internal server error. Please contact the admin.",
                 ex.getClass().toString(),
                 ex.getMessage(),
                 status.value(),
