@@ -1,5 +1,6 @@
 package br.com.ghbalbuquerque.democleanarch.application.usecase;
 
+import br.com.ghbalbuquerque.democleanarch.application.command.UpdatePersonCommand;
 import br.com.ghbalbuquerque.democleanarch.domain.entity.Person;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.UpdatePersonUseCase;
 import br.com.ghbalbuquerque.democleanarch.infrastructure.repository.PersonRepository;
@@ -14,10 +15,10 @@ public class UpdatePersonUseCaseImpl implements UpdatePersonUseCase {
     //TODO: impl
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Override
-    public Person execute(UUID id) {
+    public Person execute(UUID id, UpdatePersonCommand command) {
         return null;
     }
 }

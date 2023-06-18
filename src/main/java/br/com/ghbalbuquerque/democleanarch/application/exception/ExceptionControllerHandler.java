@@ -4,9 +4,8 @@ import br.com.ghbalbuquerque.democleanarch.application.exception.custom.AlreadyR
 import br.com.ghbalbuquerque.democleanarch.application.exception.custom.CreateEntityException;
 import br.com.ghbalbuquerque.democleanarch.application.exception.model.CustomException;
 import br.com.ghbalbuquerque.democleanarch.application.exception.model.ExceptionDetails;
-import br.com.ghbalbuquerque.democleanarch.application.exception.custom.NotFoundException;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.EntityNotFoundException;
 import br.com.ghbalbuquerque.democleanarch.application.notification.interfaces.NotificationContext;
-import com.google.gson.Gson;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,8 +55,8 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {NotFoundException.class})
-    public ResponseEntity<ExceptionDetails> resourceException(NotFoundException ex, WebRequest request) {
+    @ExceptionHandler(value = {EntityNotFoundException.class})
+    public ResponseEntity<ExceptionDetails> resourceException(EntityNotFoundException ex, WebRequest request) {
 
         final var message = new ExceptionDetails(
                 "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404",

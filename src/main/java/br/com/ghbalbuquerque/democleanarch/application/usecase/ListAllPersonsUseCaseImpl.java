@@ -13,14 +13,15 @@ import org.springframework.stereotype.Service;
 public class ListAllPersonsUseCaseImpl implements ListAllPersonsUseCase {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Autowired
     private ModelMapper mapper;
 
     @Override
     public Page<Person> execute(Pageable pageable) {
-        final var result = personRepository.findAll(pageable);
+        final var result = repository.findAll(pageable);
+
         final var response = result.map(
                 personEntity -> mapper.map(personEntity, Person.class)
         );

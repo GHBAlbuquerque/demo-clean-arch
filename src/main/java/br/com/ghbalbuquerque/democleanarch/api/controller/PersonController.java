@@ -1,9 +1,12 @@
 package br.com.ghbalbuquerque.democleanarch.api.controller;
 
 import br.com.ghbalbuquerque.democleanarch.api.request.PersonCreationDTO;
+import br.com.ghbalbuquerque.democleanarch.api.request.PersonUpdateDTO;
 import br.com.ghbalbuquerque.democleanarch.api.response.PersonResponseDTO;
 import br.com.ghbalbuquerque.democleanarch.application.command.CreatePersonCommand;
+import br.com.ghbalbuquerque.democleanarch.application.command.UpdatePersonCommand;
 import br.com.ghbalbuquerque.democleanarch.application.exception.custom.CreateEntityException;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.EntityNotFoundException;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.CreatePersonUseCase;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.GetPersonByIdUseCase;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.ListAllPersonsUseCase;
@@ -54,7 +57,7 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonResponseDTO> getPersonById(@PathVariable UUID id) {
+    public ResponseEntity<PersonResponseDTO> getPersonById(@PathVariable UUID id) throws EntityNotFoundException {
         final var result = getPersonByIdUseCase.execute(id);
         var response = modelMapper.map(result, PersonResponseDTO.class);
 
@@ -71,8 +74,9 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonResponseDTO> updatePerson(@PathVariable UUID id) {
-        final var result = updatePersonUseCase.execute(id);
+    public ResponseEntity<PersonResponseDTO> updatePerson(@PathVariable UUID id, @RequestBody PersonUpdateDTO personUpdateDTO) {
+        final var command = modelMapper.map(personUpdateDTO, UpdatePersonCommand.class);
+        final var result = updatePersonUseCase.execute(id, command);
         var response = modelMapper.map(result, PersonResponseDTO.class);
 
         return ResponseEntity.ok(response);

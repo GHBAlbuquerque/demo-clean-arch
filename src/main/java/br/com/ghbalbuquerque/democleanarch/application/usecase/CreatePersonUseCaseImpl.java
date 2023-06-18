@@ -16,10 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreatePersonUseCaseImpl implements CreatePersonUseCase {
 
-    //TODO: impl
-
     @Autowired
-    private PersonRepository personRepository;
+    private PersonRepository repository;
 
     @Autowired
     private NotificationContext notificationContext;
@@ -51,7 +49,7 @@ public class CreatePersonUseCaseImpl implements CreatePersonUseCase {
 
         var personEntity = modelMapper.map(person, PersonEntity.class);
 
-        var newPerson = personRepository.save(personEntity);
+        var newPerson = repository.save(personEntity);
 
         return modelMapper.map(newPerson, Person.class);
     }
