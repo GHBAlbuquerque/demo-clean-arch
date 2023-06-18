@@ -12,5 +12,5 @@ public class UpdatePersonCommand {
 
     String name;
 
-    LocalDate brithdate;
+    LocalDate birthdate;
 }

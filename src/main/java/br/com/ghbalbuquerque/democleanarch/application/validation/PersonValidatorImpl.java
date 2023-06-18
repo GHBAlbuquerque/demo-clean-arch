@@ -9,36 +9,57 @@ import br.com.ghbalbuquerque.democleanarch.infrastructure.repository.PersonRepos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 @Component
 public class PersonValidatorImpl implements PersonValidator {
 
     @Autowired
     private PersonRepository repository;
 
+    private ValidationResult validationResult = new ValidationResult();
+
+
     @Override
     public ValidationResult validate(Person person) {
-        final var validationResult = new ValidationResult();
-        var name = person.getName();
 
-        if (nameAlreadySet(name)) {
-            validationResult.getErrors().add(
-                    new CustomError(
-                            CustomExceptionEnum.DCA1001.getCode(),
-                            CustomExceptionEnum.DCA1002.getMessage(),
-                            "name",
-                            name
-                    )
-            );
-        }
+        validateUniqueName(person.getName());
+        validateAgeOver18(person.getBirthdate());
 
         validationResult.setIsValid(validationResult.getErrors().isEmpty());
         return validationResult;
     }
 
-    private boolean nameAlreadySet(final String name) {
+    private void validateUniqueName(final String name) {
         var person = repository.findByName(name);
 
-        return person.isPresent();
+        if (person.isPresent()) {
+            validationResult.getErrors().add(
+                    new CustomError(
+                            CustomExceptionEnum.DCA1001.getCode(),
+                            CustomExceptionEnum.DCA1001.getMessage(),
+                            "name",
+                            name
+                    )
+            );
+        }
+    }
+
+    private void validateAgeOver18(final LocalDate birthdate) {
+        var currentDate = LocalDate.now();
+        var age = ChronoUnit.YEARS.between(birthdate, currentDate);
+
+        if (age < 18L) {
+            validationResult.getErrors().add(
+                    new CustomError(
+                            CustomExceptionEnum.DCA1002.getCode(),
+                            CustomExceptionEnum.DCA1002.getMessage(),
+                            "birthdate",
+                            birthdate
+                    )
+            );
+        }
     }
 
 }

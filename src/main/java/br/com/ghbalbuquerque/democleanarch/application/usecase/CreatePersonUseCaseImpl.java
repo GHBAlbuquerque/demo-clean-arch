@@ -1,6 +1,8 @@
 package br.com.ghbalbuquerque.democleanarch.application.usecase;
 
 import br.com.ghbalbuquerque.democleanarch.application.command.CreatePersonCommand;
+import br.com.ghbalbuquerque.democleanarch.application.exception.CustomExceptionEnum;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.CreateEntityException;
 import br.com.ghbalbuquerque.democleanarch.application.notification.interfaces.NotificationContext;
 import br.com.ghbalbuquerque.democleanarch.domain.entity.Person;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.CreatePersonUseCase;
@@ -29,7 +31,7 @@ public class CreatePersonUseCaseImpl implements CreatePersonUseCase {
     private ModelMapper modelMapper;
 
     @Override
-    public Person execute(CreatePersonCommand command) {
+    public Person execute(CreatePersonCommand command) throws CreateEntityException {
         var person = modelMapper.map(command, Person.class);
 
         var validationResult = validator.validate(person);
@@ -40,12 +42,16 @@ public class CreatePersonUseCaseImpl implements CreatePersonUseCase {
                             error.getCode(), error.getMessage()
                     )
             );
-            return null;
+
+            throw new CreateEntityException(
+                    CustomExceptionEnum.DCA2001.getCode(),
+                    CustomExceptionEnum.DCA2001.getMessage()
+            );
         }
 
-        var pessoaEntity = modelMapper.map(person, PersonEntity.class);
+        var personEntity = modelMapper.map(person, PersonEntity.class);
 
-        var newPerson = personRepository.save(pessoaEntity);
+        var newPerson = personRepository.save(personEntity);
 
         return modelMapper.map(newPerson, Person.class);
     }

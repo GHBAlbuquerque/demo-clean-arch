@@ -9,5 +9,5 @@ public class CreatePersonCommand {
 
     String name;
 
-    LocalDate brithdate;
+    LocalDate birthdate;
 }

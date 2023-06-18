@@ -9,5 +9,5 @@ public class PersonUpdateDTO {
 
     String name;
 
-    LocalDate brithdate;
+    LocalDate birthdate;
 }

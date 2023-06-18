@@ -13,5 +13,5 @@ public class PersonCreationDTO {
     String name;
 
     @NotNull
-    LocalDate brithdate;
+    LocalDate birthdate;
 }

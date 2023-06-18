@@ -18,8 +18,7 @@ import java.util.UUID;
 public class PersonEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID")
+    @GeneratedValue
     private UUID id;
 
     private String name;

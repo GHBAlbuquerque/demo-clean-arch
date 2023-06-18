@@ -3,6 +3,7 @@ package br.com.ghbalbuquerque.democleanarch.api.controller;
 import br.com.ghbalbuquerque.democleanarch.api.request.PersonCreationDTO;
 import br.com.ghbalbuquerque.democleanarch.api.response.PersonResponseDTO;
 import br.com.ghbalbuquerque.democleanarch.application.command.CreatePersonCommand;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.CreateEntityException;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.CreatePersonUseCase;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.GetPersonByIdUseCase;
 import br.com.ghbalbuquerque.democleanarch.domain.usecase.ListAllPersonsUseCase;
@@ -61,7 +62,7 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonCreationDTO personCreationDTO) {
+    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonCreationDTO personCreationDTO) throws CreateEntityException {
         final var command = modelMapper.map(personCreationDTO, CreatePersonCommand.class);
         final var result = createPersonUseCase.execute(command);
         var response = modelMapper.map(result, PersonResponseDTO.class);

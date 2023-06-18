@@ -1,9 +1,14 @@
 package br.com.ghbalbuquerque.democleanarch.application.exception;
 
-import br.com.ghbalbuquerque.democleanarch.application.exception.model.AlreadyRegisteredException;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.AlreadyRegisteredException;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.CreateEntityException;
+import br.com.ghbalbuquerque.democleanarch.application.exception.model.CustomException;
 import br.com.ghbalbuquerque.democleanarch.application.exception.model.ExceptionDetails;
-import br.com.ghbalbuquerque.democleanarch.application.exception.model.NotFoundException;
+import br.com.ghbalbuquerque.democleanarch.application.exception.custom.NotFoundException;
+import br.com.ghbalbuquerque.democleanarch.application.notification.interfaces.NotificationContext;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +22,25 @@ import java.util.Date;
 @RestControllerAdvice
 public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
 
+    @Autowired
+    private NotificationContext notificationContext;
+
+    @ExceptionHandler(value = {CreateEntityException.class})
+    public ResponseEntity<ExceptionDetails> resourceException(CustomException ex, WebRequest request) {
+
+        final var message = new ExceptionDetails(
+                "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400",
+                "The server could not process the request due to a client error.",
+                ex.getCode(),
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                notificationContext.getNotifications());
+
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+
     @ExceptionHandler(value = {AlreadyRegisteredException.class})
     public ResponseEntity<ExceptionDetails> resourceException(AlreadyRegisteredException ex, WebRequest request) {
 
@@ -26,7 +50,8 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 ex.getCode(),
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value(),
-                new Date());
+                new Date(),
+                null);
 
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
@@ -40,7 +65,8 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 ex.getCode(),
                 ex.getMessage(),
                 HttpStatus.NOT_FOUND.value(),
-                new Date());
+                new Date(),
+                null);
 
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
@@ -56,7 +82,8 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 ex.getClass().toString(),
                 root.getCause().toString(),
                 status.value(),
-                new Date());
+                new Date(),
+                null);
 
         return handleExceptionInternal(ex, message, null, status, request);
     }
@@ -71,7 +98,8 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 ex.getClass().toString(),
                 ex.getMessage(),
                 status.value(),
-                new Date());
+                new Date(),
+                null);
 
         ex.printStackTrace();
 

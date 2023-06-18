@@ -1,4 +1,6 @@
-package br.com.ghbalbuquerque.democleanarch.application.exception.model;
+package br.com.ghbalbuquerque.democleanarch.application.exception.custom;
+
+import br.com.ghbalbuquerque.democleanarch.application.exception.model.CustomException;
 
 public class AlreadyRegisteredException extends CustomException {
 
