@@ -16,4 +16,6 @@ public interface NotificationContext {
     boolean hasNotifications();
 
     List<NotificationAbstract> getNotifications();
+
+    void cleanNotifications();
 }

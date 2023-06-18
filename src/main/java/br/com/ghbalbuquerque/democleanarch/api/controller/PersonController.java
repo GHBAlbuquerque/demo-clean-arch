@@ -65,7 +65,8 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonCreationDTO personCreationDTO) throws CreateEntityException {
+    public ResponseEntity<PersonResponseDTO> createPerson(@RequestBody PersonCreationDTO personCreationDTO)
+            throws CreateEntityException {
         final var command = modelMapper.map(personCreationDTO, CreatePersonCommand.class);
         final var result = createPersonUseCase.execute(command);
         var response = modelMapper.map(result, PersonResponseDTO.class);
@@ -74,7 +75,8 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonResponseDTO> updatePerson(@PathVariable UUID id, @RequestBody PersonUpdateDTO personUpdateDTO) {
+    public ResponseEntity<PersonResponseDTO> updatePerson(@PathVariable UUID id, @RequestBody PersonUpdateDTO personUpdateDTO)
+            throws CreateEntityException, EntityNotFoundException {
         final var command = modelMapper.map(personUpdateDTO, UpdatePersonCommand.class);
         final var result = updatePersonUseCase.execute(id, command);
         var response = modelMapper.map(result, PersonResponseDTO.class);

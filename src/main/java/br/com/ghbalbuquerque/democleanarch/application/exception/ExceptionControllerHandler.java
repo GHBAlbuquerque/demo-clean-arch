@@ -36,6 +36,7 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 notificationContext.getNotifications());
 
+        cleanNotifications();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
@@ -52,6 +53,7 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 null);
 
+        cleanNotifications();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
@@ -67,6 +69,7 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 null);
 
+        cleanNotifications();
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
@@ -84,6 +87,7 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 null);
 
+        cleanNotifications();
         return handleExceptionInternal(ex, message, null, status, request);
     }
 
@@ -102,6 +106,12 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
 
         ex.printStackTrace();
 
+        cleanNotifications();
         return handleExceptionInternal(ex, message, null, status, request);
+    }
+
+    private void cleanNotifications(){
+        System.out.println("List of errors in NotificationContext will be cleaned up for next request.");
+       notificationContext.cleanNotifications();
     }
 }

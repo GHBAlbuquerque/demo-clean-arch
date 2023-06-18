@@ -14,8 +14,6 @@ import java.util.UUID;
 @Service
 public class GetPersonByIdUseCaseImpl implements GetPersonByIdUseCase {
 
-    //TODO: impl
-
     @Autowired
     private PersonRepository repository;
 

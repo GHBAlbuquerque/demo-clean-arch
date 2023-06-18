@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class NotificationContextImpl implements NotificationContext {
 
-    private final List<NotificationAbstract> notifications = new ArrayList<NotificationAbstract>();
+    private List<NotificationAbstract> notifications = new ArrayList<NotificationAbstract>();
 
     @Override
     public void addNotification(String key, String message) {
@@ -36,5 +36,10 @@ public class NotificationContextImpl implements NotificationContext {
     @Override
     public List<NotificationAbstract> getNotifications() {
         return notifications;
+    }
+
+    @Override
+    public void cleanNotifications() {
+        this.notifications = new ArrayList<>();
     }
 }
